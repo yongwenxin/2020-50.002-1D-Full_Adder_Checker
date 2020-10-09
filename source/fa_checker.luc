@@ -1,0 +1,20 @@
+module fa_checker (
+    input counter_val[3],
+    input c0 [1],
+    input s [1],
+    
+    output addResult[2],
+    output checkResult[1]
+  ) {
+
+  always {
+    //compute the 1-bit addition result
+    addResult = counter_val[0] + counter_val[1] + counter_val[2]; 
+
+    //check if the result is correct (correct = 1; incorrect = 0)
+    checkResult = ((counter_val[0] ^ counter_val[1] ^ counter_val[2]) ~^ s) 
+      & ((counter_val[0]&counter_val[1] | 
+            counter_val[1]&counter_val[2]| 
+              counter_val[0]&counter_val[2]) ~^ c0); 
+    }
+}

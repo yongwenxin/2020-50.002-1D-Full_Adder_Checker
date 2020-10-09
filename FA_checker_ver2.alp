@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="FA_checker_ver2" board="Alchitry Au" language="Lucid" version="3">
+  <files>
+    <src>fa_checker.luc</src>
+    <src top="true">au_top.luc</src>
+    <component>reset_conditioner.luc</component>
+    <component>counter.luc</component>
+    <constraint lib="true">au.xdc</constraint>
+    <constraint>custom.acf</constraint>
+  </files>
+</project>
