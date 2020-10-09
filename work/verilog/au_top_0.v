@@ -25,11 +25,15 @@ module au_top_0 (
   
   wire [2-1:0] M_fa_check_addResult;
   wire [1-1:0] M_fa_check_checkResult;
-  reg [3-1:0] M_fa_check_counter_val;
+  reg [1-1:0] M_fa_check_a;
+  reg [1-1:0] M_fa_check_b;
+  reg [1-1:0] M_fa_check_cin;
   reg [1-1:0] M_fa_check_c0;
   reg [1-1:0] M_fa_check_s;
-  fa_checker_1 fa_check (
-    .counter_val(M_fa_check_counter_val),
+  full_adder_checker_1 fa_check (
+    .a(M_fa_check_a),
+    .b(M_fa_check_b),
+    .cin(M_fa_check_cin),
     .c0(M_fa_check_c0),
     .s(M_fa_check_s),
     .addResult(M_fa_check_addResult),
@@ -43,19 +47,6 @@ module au_top_0 (
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
-  wire [1-1:0] M_slowclk_value;
-  counter_3 slowclk (
-    .clk(clk),
-    .rst(rst),
-    .value(M_slowclk_value)
-  );
-  
-  wire [3-1:0] M_cntr_value;
-  counter_4 cntr (
-    .clk(M_slowclk_value),
-    .rst(rst),
-    .value(M_cntr_value)
-  );
   
   always @* begin
     M_reset_cond_in = ~rst_n;
@@ -65,15 +56,14 @@ module au_top_0 (
     io_led = 24'h000000;
     io_seg = 8'hff;
     io_sel = 4'hf;
-    M_fa_check_counter_val = M_cntr_value;
+    M_fa_check_a = io_dip[0+0+0-:1];
+    M_fa_check_b = io_dip[0+1+0-:1];
+    M_fa_check_cin = io_dip[0+2+0-:1];
     M_fa_check_c0 = cout;
     M_fa_check_s = s;
-    io_led[0+0+0-:1] = M_cntr_value[0+0-:1];
-    io_led[0+1+0-:1] = M_cntr_value[1+0-:1];
-    io_led[0+2+0-:1] = M_cntr_value[2+0-:1];
     io_led[8+0+0-:1] = s;
     io_led[8+1+0-:1] = cout;
-    io_led[0+6+1-:2] = M_fa_check_addResult;
+    io_led[0+0+1-:2] = M_fa_check_addResult;
     io_led[16+0+0-:1] = M_fa_check_checkResult;
   end
 endmodule
